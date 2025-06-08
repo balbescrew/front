@@ -3,6 +3,36 @@
   background-color: black;
   min-height: 100vh;
   padding: 20px;
+  position: relative;
+  isolation: isolate;
+}
+
+.chats-list-page::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  left: -130px;
+  width: 400px;
+  height: 300px;
+  background-image: url('/src/images/Thread2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(10deg);
+  z-index: -998;
+}
+
+.chats-list-page > div::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -160px;
+  width: 650px;
+  height: 650px;
+  background-image: url('/src/images/Group1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(-30deg);
+  z-index: -999;
 }
 
 .back-button {
@@ -16,6 +46,9 @@
   transition: box-shadow 0.3s ease;
   font-family: 'TinkoffSans Medium', sans-serif;
   margin-bottom: 20px;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
 }
 
 .back-button:hover {
@@ -51,32 +84,50 @@
   align-items: center;
 }
 
-.chat-item-button {
-  background-color: white;
-  color: #2b2b2b;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
+/* Обновленные стили для элементов чата */
+.chat-list {
+  width: 100%;
+}
+
+.chat-item {
+  background-color: #333333;
+  color: white;
+  border: 2px solid #FFDD2D; /* Желтая обводка */
+  border-radius: 12px;
+  padding: 15px 20px;
   margin-bottom: 15px;
-  width: 90%;
-  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
   font-family: 'TinkoffSans Regular', sans-serif;
   font-size: 1.2em;
-  transition: box-shadow 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.chat-item-button:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
+.chat-item:hover {
+  background-color: #3d3d3d;
+  box-shadow: 0 5px 15px rgba(255, 221, 45, 0.2);
+  transform: translateY(-2px);
 }
 
-.chat-item-button:last-child {
+.chat-item:last-child {
   margin-bottom: 0;
 }
 
-.loading {
+.loading, .error, .no-chats {
   color: #FFDD2D;
   font-size: 1.5em;
   padding: 20px;
   text-align: center;
+  width: 100%;
+}
+
+.error {
+  color: #ff4d4d;
+}
+
+.no-chats {
+  color: #a0a0a0;
 }

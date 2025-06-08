@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const API_URL = 'http://10.10.127.4'; // Замените на ваш URL
 
+
+
 export const login = async (email, password) => {
   try {
     const response = await axios.post(`${API_URL}/auth/token`, {

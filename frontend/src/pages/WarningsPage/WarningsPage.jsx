@@ -1,20 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './WarningsPage.css';
 
 const WarningsPage = () => {
   const navigate = useNavigate();
+  const { chatId } = useParams(); // Получаем chatId из URL
   const [warnings, setWarnings] = useState([]);
+  const [filteredWarnings, setFilteredWarnings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Загрузка данных из БД
   useEffect(() => {
     const fetchWarnings = async () => {
       try {
-        // Замените на ваш реальный API-вызов
-        const response = await fetch('/api/warnings');
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://10.10.127.4/warnings', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         setWarnings(data);
+        
+        // Если есть chatId в URL, сразу фильтруем предупреждения
+        if (chatId) {
+          const filtered = data.filter(warning => warning.chatId === chatId);
+          setFilteredWarnings(filtered);
+        } else {
+          setFilteredWarnings(data);
+        }
+        
         setIsLoading(false);
       } catch (error) {
         console.error('Ошибка при загрузке предупреждений:', error);
@@ -23,10 +45,14 @@ const WarningsPage = () => {
     };
 
     fetchWarnings();
-  }, []);
+  }, [chatId]); // Добавляем chatId в зависимости, чтобы эффект срабатывал при его изменении
 
   const handleBackClick = () => {
     navigate('/');
+  };
+
+  const handleClearFilter = () => {
+    navigate('/warnings'); // Переходим на страницу без фильтра
   };
 
   return (
@@ -34,27 +60,41 @@ const WarningsPage = () => {
       <button className="back-button" onClick={handleBackClick}>
         Вернуться на главную
       </button>
-      <button className="filter-button">Фильтр по чату</button>
+      
+      {chatId && (
+        <button className="filter-button" onClick={handleClearFilter}>
+          Очистить (Чат: {chatId})
+        </button>
+      )}
       
       <div className="content-warnings">
         <div className="top-bar">
-          Список предупреждений
+          {chatId ? `Предупреждения для чата ${chatId}` : 'Все предупреждения'}
         </div>
         
         <div className="menu">
           <div className="chats-list-box">
             {isLoading ? (
               <div className="loading-message">Загрузка...</div>
-            ) : warnings.length === 0 ? (
-              <div className="no-warnings">Нет предупреждений</div>
+            ) : filteredWarnings.length === 0 ? (
+              <div className="no-warnings">
+                {chatId ? `Нет предупреждений для чата ${chatId}` : 'Нет предупреждений'}
+              </div>
             ) : (
-              warnings.map((warning, index) => (
+              filteredWarnings.map((warning, index) => (
                 <button 
                   key={warning.id || index}
                   className="chat-item-button"
                   onClick={() => navigate(`/warning/${warning.id}`)}
                 >
-                  Предупреждение {index + 1}: {warning.message || warning.reason}
+                  <div>Предупреждение {index + 1}</div>
+                  {!chatId && <div>Чат ID: {warning.chatId}</div>}
+                  <div>Причина: {warning.message || warning.reason}</div>
+                  {warning.messageContent && (
+                    <div className="message-content">
+                      Сообщение: {warning.messageContent}
+                    </div>
+                  )}
                 </button>
               ))
             )}

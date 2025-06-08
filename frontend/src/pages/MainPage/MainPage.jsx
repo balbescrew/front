@@ -110,7 +110,7 @@ const MainPage = () => {
             
             <div className="chats-list-box">
               <div className="message-content">
-                <pre>{currentMessage.text || 'Нет текста сообщения'}</pre>
+                <div>{currentMessage.text || 'Нет текста сообщения'}</div>
                 {currentMessage.spam_score && (
                   <p className="spam-score">Вероятность спама: {(currentMessage.spam_score * 100).toFixed(2)}%</p>
                 )}

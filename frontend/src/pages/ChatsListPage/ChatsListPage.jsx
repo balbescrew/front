@@ -1,37 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { fetchChats } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 import './ChatsListPage.css';
 
 const ChatsListPage = () => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const loadChats = async () => {
+    const fetchChatIds = async () => {
       try {
-        // Предполагаем, что API возвращает массив чатов в формате:
-        // [{ id: number, title: string }, ...]
-        const data = await fetchChats();
+        setLoading(true);
+        const token = localStorage.getItem('token');
+        
+        const response = await fetch('http://10.10.127.4/messages/unique_chat_ids', {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
         setChats(data);
-      } catch (error) {
-        console.error('Error loading chats:', error);
-        // Можно добавить состояние ошибки для отображения пользователю
+      } catch (err) {
+        console.error('Error fetching chat IDs:', err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
-    loadChats();
+    fetchChatIds();
   }, []);
 
   const handleBackClick = () => {
-    // Здесь можно использовать react-router или window.location
-    window.location.href = '/';
+    navigate('/');
   };
 
   const handleChatClick = (chatId) => {
-    // Переход на страницу чата
-    window.location.href = `/chat/${chatId}`;
+    // Переход на страницу предупреждений для конкретного чата
+    navigate(`/warnings/${chatId}`);
   };
 
   return (
@@ -42,25 +56,29 @@ const ChatsListPage = () => {
       
       <div className="content">
         <div className="top-bar">
-          Название чата
+          Список чатов (ID)
         </div>
         
         <div className="menu">
           <div className="chats-list-box">
             {loading ? (
               <div className="loading">Загрузка чатов...</div>
+            ) : error ? (
+              <div className="error">Ошибка: {error}</div>
             ) : chats.length === 0 ? (
               <div className="no-chats">Чатов не найдено</div>
             ) : (
-              chats.map(chat => (
-                <button
-                  key={chat.id}
-                  className="chat-item-button"
-                  onClick={() => handleChatClick(chat.id)}
-                >
-                  {chat.title || `Чат ${chat.id}`}
-                </button>
-              ))
+              <div className="chat-list">
+                {chats.map(chatId => (
+                  <div 
+                    key={chatId} 
+                    className="chat-item"
+                    onClick={() => handleChatClick(chatId)}
+                  >
+                    Чат ID: {chatId}
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

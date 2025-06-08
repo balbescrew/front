@@ -23,6 +23,7 @@ function App() {
           }
         />
         <Route path="/chats" element={<ChatsListPage />} />
+        <Route path="/warnings/:chatId" element={<WarningsPage />} />
         <Route path="/warnings" element={<WarningsPage />} />
       </Routes>
     </Router>
