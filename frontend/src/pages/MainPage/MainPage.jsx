@@ -111,7 +111,7 @@ const MainPage = () => {
         ) : currentMessage ? (
           <>
             <div className="info-box">
-              Пользователь: {currentMessage.user_first_name || "Аноним"}
+              Пользователь: {currentMessage.user_username || "Аноним"}
             </div>
 
             <div className="chats-list-box">
