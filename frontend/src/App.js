@@ -13,18 +13,43 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route 
+          path="/" 
+          element={isAuthenticated() ? <Navigate to="/main" /> : <Navigate to="/login" />} 
+        />
         <Route path="/login" element={<AuthPage />} />
         <Route
-          path="/"
+          path="/main"
           element={
             <PrivateRoute>
               <MainPage />
             </PrivateRoute>
           }
         />
-        <Route path="/chats" element={<ChatsListPage />} />
-        <Route path="/warnings/:chatId" element={<WarningsPage />} />
-        <Route path="/warnings" element={<WarningsPage />} />
+        <Route 
+          path="/chats" 
+          element={
+            <PrivateRoute>
+              <ChatsListPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/warnings/:chatId" 
+          element={
+            <PrivateRoute>
+              <WarningsPage />
+            </PrivateRoute>
+          } 
+        />
+        <Route 
+          path="/warnings" 
+          element={
+            <PrivateRoute>
+              <WarningsPage />
+            </PrivateRoute>
+          } 
+        />
       </Routes>
     </Router>
   );
