@@ -6,18 +6,26 @@ import AuthPage from './pages/AuthPage/AuthPage';
 import { isAuthenticated } from './services/auth';
 
 const PrivateRoute = ({ children }) => {
-  return isAuthenticated() ? children : <Navigate to="/login" />;
+  return isAuthenticated() ? children : <Navigate to="/login" replace />;
+};
+
+const PublicRoute = ({ children }) => {
+  return !isAuthenticated() ? children : <Navigate to="/main" replace />;
 };
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route 
-          path="/" 
-          element={isAuthenticated() ? <Navigate to="/main" /> : <Navigate to="/login" />} 
+          path="/login" 
+          element={
+            <PublicRoute>
+              <AuthPage />
+            </PublicRoute>
+          } 
         />
-        <Route path="/login" element={<AuthPage />} />
         <Route
           path="/main"
           element={
@@ -50,6 +58,7 @@ function App() {
             </PrivateRoute>
           } 
         />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
