@@ -29,7 +29,6 @@ const WarningsPage = () => {
         const data = await response.json();
         setWarnings(data);
         
-        // Если есть chatId в URL, сразу фильтруем предупреждения
         if (chatId) {
           const filtered = data.filter(warning => warning.chatId === chatId);
           setFilteredWarnings(filtered);
@@ -45,14 +44,14 @@ const WarningsPage = () => {
     };
 
     fetchWarnings();
-  }, [chatId]); // Добавляем chatId в зависимости, чтобы эффект срабатывал при его изменении
+  }, [chatId]);
 
   const handleBackClick = () => {
     navigate('/');
   };
 
   const handleClearFilter = () => {
-    navigate('/warnings'); // Переходим на страницу без фильтра
+    navigate('/warnings');
   };
 
   return (
