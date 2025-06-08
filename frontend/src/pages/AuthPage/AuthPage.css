@@ -1,0 +1,68 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: black;
+  padding: 20px;
+  background-image: url('/src/images/Thread2.png'), url('/src/images/Group1.png');
+  background-repeat: no-repeat;
+  background-position: 
+    bottom -25% right 18%,
+    bottom -10% right 18%;
+  background-size: 
+    500px,
+    450px;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Background Thread2 */
+.auth-page::before {
+  content: '';
+  position: absolute;
+  top: -150px;
+  right: -50px;
+  width: 700px;
+  height: 500px;
+  background-image: url('/src/images/Thread2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(120deg);
+  z-index: -999;
+}
+
+/* Thread5 image */
+.auth-page::after {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background-image: url('/src/images/Thread5.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(90deg);
+  z-index: 999;
+}
+
+/* Group1 image */
+.auth-page > div::before {
+  content: '';
+  position: absolute;
+  top: -170px;
+  left: -800px;
+  width: 700px;
+  height: 700px;
+  background-image: url('/src/images/Group1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+  z-index: 2;
+}
+
+.auth-page > * {
+  position: relative;
+  z-index: 999;
+}

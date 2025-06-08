@@ -1,0 +1,57 @@
+# Депенденсии
+/node_modules
+/.pnp
+.pnp.js
+
+# Тестирование
+/coverage
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Переменные окружения
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Кэш и временные файлы
+.DS_Store
+*.swp
+*.swo
+*~
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Сборка
+/build
+/dist
+/.next
+/out
+
+# Другое
+.eslintcache
+*.log
+.cache
+.parcel-cache
+.next
+.vercel
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Опционально (если используете Storybook)
+.storybook
