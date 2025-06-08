@@ -151,7 +151,7 @@ const MainPage = () => {
       <div className="menu-buttons">
         <button
           className="button"
-          onClick={() => (window.location.href = "/warnings")}
+          onClick={() => (window.location.href = "/users")}
         >
           Список пользователей
         </button>

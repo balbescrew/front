@@ -3,6 +3,8 @@ import MainPage from './pages/MainPage/MainPage';
 import WarningsPage from './pages/WarningsPage/WarningsPage';
 import ChatsListPage from './pages/ChatsListPage/ChatsListPage';
 import AuthPage from './pages/AuthPage/AuthPage';
+import UsersPage from './pages/UsersPage/UsersPage';
+import UserMessagesPage from './pages/UserMessagesPage/UserMessagesPage';
 import { isAuthenticated } from './services/auth';
 
 const PrivateRoute = ({ children }) => {
@@ -58,6 +60,15 @@ function App() {
             </PrivateRoute>
           } 
         />
+        <Route 
+          path="/users" 
+          element={
+            <PrivateRoute>
+              <UsersPage />
+            </PrivateRoute>
+          } 
+        />
+        {/* <Route path="/users/:username" element={<UserMessagesPage />} /> */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>

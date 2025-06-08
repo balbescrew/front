@@ -51,7 +51,7 @@
 .auth-page > div::before {
   content: '';
   position: absolute;
-  top: -170px;
+  top: -270px;
   left: -800px;
   width: 700px;
   height: 700px;
