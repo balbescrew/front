@@ -21,10 +21,6 @@ const LoginForm = () => {
     setLoading(true);
     setError('');
 
-
-
-    const result = await login(email, password);
-    
     try {
       const result = await login(email, password);
       
@@ -32,9 +28,8 @@ const LoginForm = () => {
         // Дополнительные действия после успешного входа
         localStorage.setItem('lastLogin', new Date().toISOString());
         
-        // Перенаправление на предыдущую страницу или по умолчанию
-        const returnTo = '/';
-        navigate(returnTo, { replace: true });
+        // Перенаправление на главную страницу
+        navigate('/main', { replace: true });
       } else {
         setError(result.message || 'Неверный email или пароль');
       }
@@ -44,8 +39,6 @@ const LoginForm = () => {
     } finally {
       setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
