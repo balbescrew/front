@@ -2,21 +2,18 @@ import {api} from './api';
 import { storeToken, getToken, clearToken } from './storage';
 import axios from 'axios';
 
-const API_URL = 'http://10.10.127.4'; // Замените на ваш URL
-
+const apiUrl = process.env.REACT_APP_API_URL;
 
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/token`, {
+    const response = await axios.post(`${apiUrl}/auth/token`, {
       email,
       password
     });
     
-    // Предполагаем, что сервер возвращает { access_token: "ваш.jwt.токен" }
     const { access_token } = response.data;
     
-    // Сохраняем токен в localStorage
     localStorage.setItem('token', access_token);
     
     return { success: true, token: access_token };

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./WarningsPage.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const WarningsPage = () => {
   const navigate = useNavigate();
   const { chatId } = useParams(); // Получаем chatId из URL
@@ -14,7 +16,7 @@ const WarningsPage = () => {
     const fetchWarnings = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://10.10.127.4/warnings", {
+        const response = await fetch(`${apiUrl}/warnings`, {
           method: "GET",
           headers: {
             Accept: "application/json",

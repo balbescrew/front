@@ -17,22 +17,17 @@ api.interceptors.response.use(
   response => response,
   error => {
     if (error.response?.status === 401) {
-      // Обработка случая, когда токен недействителен
       console.error('Unauthorized - возможно, нужно разлогинить пользователя');
     }
     return Promise.reject(error);
   }
 );
 
-
-/////////////////////////////////////
-
 export const fetchChats = async () => {
   const response = await fetch('/api/chats');
   if (!response.ok) throw new Error('Failed to fetch chats');
   const data = await response.json();
-  
-  // Преобразуем данные в нужный формат
+
   return data.map(chat => ({
     chat_id: chat.id,
     title: chat.title || `Чат ${chat.id}`,

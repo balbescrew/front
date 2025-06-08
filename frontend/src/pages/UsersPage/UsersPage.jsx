@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UsersPage.css';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ const UsersPage = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://10.10.127.4/messages/user_spam_summary?last_n=5', {
+        const response = await fetch(`${apiUrl}/messages/user_spam_summary?last_n=5`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

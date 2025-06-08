@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './UserMessagesPage.css';
+import { api } from '../../services/api';
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const UserMessagesPage = () => {
   const { username } = useParams();
@@ -15,7 +18,7 @@ const UserMessagesPage = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`http://10.10.127.4/messages/user_messages?username=${username}`, {
+        const response = await fetch(`${apiUrl}/messages/user_messages?username=${username}`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

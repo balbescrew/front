@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ChatsListPage.css';
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const ChatsListPage = () => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ const ChatsListPage = () => {
         setLoading(true);
         const token = localStorage.getItem('token');
         
-        const response = await fetch('http://10.10.127.4/messages/unique_chat_ids', {
+        const response = await fetch(`${apiUrl}/messages/unique_chat_ids`, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',

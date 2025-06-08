@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./MainPage.css";
 
+const apiUrl = process.env.REACT_APP_API_URL;
+
 const MainPage = () => {
   const [currentMessage, setCurrentMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -13,7 +15,7 @@ const MainPage = () => {
     setError(null);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://10.10.127.4/messages/unprocessed", {
+      const response = await fetch(`${apiUrl}/messages/unprocessed`, {
         method: "GET",
         headers: {
           Accept: "application/json",
@@ -50,7 +52,7 @@ const MainPage = () => {
     setIsProcessing(true);
     try {
       const token = localStorage.getItem("token");
-      const url = `http://10.10.127.4/messages/${message.chat_id}/${message.message_id}/process?is_spam=${isSpam}`;
+      const url = `${apiUrl}/messages/${message.chat_id}/${message.message_id}/process?is_spam=${isSpam}`;
 
       const response = await fetch(url, {
         method: "POST",
