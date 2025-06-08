@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './UserMessagesPage.css';
 import { api } from '../../services/api';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = "http://10.10.127.4/api";
 
 const UserMessagesPage = () => {
   const { username } = useParams();

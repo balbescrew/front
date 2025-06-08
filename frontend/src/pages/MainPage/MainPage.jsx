@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./MainPage.css";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = "http://10.10.127.4/api";
 
 const MainPage = () => {
   const [currentMessage, setCurrentMessage] = useState(null);

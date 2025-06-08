@@ -2,7 +2,7 @@ import {api} from './api';
 import { storeToken, getToken, clearToken } from './storage';
 import axios from 'axios';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = "http://10.10.127.4/api";
 
 
 export const login = async (email, password) => {

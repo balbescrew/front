@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ChatsListPage.css';
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = "http://10.10.127.4/api";
 
 const ChatsListPage = () => {
   const [chats, setChats] = useState([]);
