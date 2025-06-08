@@ -153,7 +153,7 @@ const MainPage = () => {
           className="button"
           onClick={() => (window.location.href = "/warnings")}
         >
-          Список предупреждений
+          Список пользователей
         </button>
         <button
           className="button"
