@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './MainPage.css';
+import React, { useState, useEffect } from "react";
+import "./MainPage.css";
 
 const MainPage = () => {
   const [currentMessage, setCurrentMessage] = useState(null);
@@ -12,13 +12,13 @@ const MainPage = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('http://10.10.127.4/messages/unprocessed', {
-        method: 'GET',
+      const token = localStorage.getItem("token");
+      const response = await fetch("http://10.10.127.4/messages/unprocessed", {
+        method: "GET",
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -33,7 +33,7 @@ const MainPage = () => {
         setCurrentMessage(null);
       }
     } catch (error) {
-      console.error('Ошибка при загрузке сообщений:', error);
+      console.error("Ошибка при загрузке сообщений:", error);
       setError(error.message);
     } finally {
       setIsLoading(false);
@@ -44,36 +44,42 @@ const MainPage = () => {
     fetchUnprocessedMessages();
   }, []);
 
-  const processMessage = async (messageId, isSpam) => {
-    if (!messageId || isProcessing) return;
-    
+  const processMessage = async (message, isSpam) => {
+    if (!message || isProcessing) return;
+
     setIsProcessing(true);
     try {
-      const token = localStorage.getItem('token');
-      const url = `http://10.10.127.4/messages/${messageId}/process`;
-      
+      const token = localStorage.getItem("token");
+      const url = `http://10.10.127.4/messages/${message.chat_id}/${message.message_id}/process?is_spam=${isSpam}`;
+
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          is_spam: isSpam
-        })
+          is_spam: isSpam,
+        }),
       });
 
       if (response.ok) {
-        const updatedMessages = unprocessedMessages.filter(msg => msg.message_id !== messageId);
+        const updatedMessages = unprocessedMessages.filter(
+          (msg) => msg.message_id !== message.message_id
+        );
         setUnprocessedMessages(updatedMessages);
-        
-        setCurrentMessage(updatedMessages.length > 0 ? updatedMessages[updatedMessages.length - 1] : null);
+
+        setCurrentMessage(
+          updatedMessages.length > 0
+            ? updatedMessages[updatedMessages.length - 1]
+            : null
+        );
       } else {
-        console.error('Failed to process message:', await response.text());
+        console.error("Failed to process message:", await response.text());
       }
     } catch (error) {
-      console.error('Error processing message:', error);
+      console.error("Error processing message:", error);
     } finally {
       setIsProcessing(false);
     }
@@ -81,13 +87,13 @@ const MainPage = () => {
 
   const handleSpamAction = () => {
     if (currentMessage) {
-      processMessage(currentMessage.message_id, true);
+      processMessage(currentMessage, true);
     }
   };
 
   const handleNotSpamAction = () => {
     if (currentMessage) {
-      processMessage(currentMessage.message_id, false);
+      processMessage(currentMessage, false);
     }
   };
 
@@ -105,32 +111,35 @@ const MainPage = () => {
         ) : currentMessage ? (
           <>
             <div className="info-box">
-              Пользователь: {currentMessage.user_first_name || 'Аноним'}
+              Пользователь: {currentMessage.user_first_name || "Аноним"}
             </div>
-            
+
             <div className="chats-list-box">
               <div className="message-content">
-                <div>{currentMessage.text || 'Нет текста сообщения'}</div>
+                <div>{currentMessage.text || "Нет текста сообщения"}</div>
                 {currentMessage.spam_score && (
-                  <p className="spam-score">Вероятность спама: {(currentMessage.spam_score * 100).toFixed(2)}%</p>
+                  <p className="spam-score">
+                    Вероятность спама:{" "}
+                    {(currentMessage.spam_score * 100).toFixed(2)}%
+                  </p>
                 )}
               </div>
             </div>
 
             <div className="spam-buttons">
-              <button 
-                className="button spam-button" 
+              <button
+                className="button spam-button"
                 onClick={handleNotSpamAction}
                 disabled={isProcessing}
               >
-                {isProcessing ? 'Обработка...' : 'НЕ СПАМ'}
+                {isProcessing ? "Обработка..." : "НЕ СПАМ"}
               </button>
-              <button 
-                className="button spam-button spam" 
+              <button
+                className="button spam-button spam"
                 onClick={handleSpamAction}
                 disabled={isProcessing}
               >
-                {isProcessing ? 'Обработка...' : 'СПАМ'}
+                {isProcessing ? "Обработка..." : "СПАМ"}
               </button>
             </div>
           </>
@@ -138,17 +147,17 @@ const MainPage = () => {
           <p>Нет непрочитанных сообщений</p>
         )}
       </div>
-      
+
       <div className="menu-buttons">
-        <button 
+        <button
           className="button"
-          onClick={() => window.location.href = '/warnings'}
+          onClick={() => (window.location.href = "/warnings")}
         >
           Список предупреждений
         </button>
-        <button 
+        <button
           className="button"
-          onClick={() => window.location.href = '/chats'} 
+          onClick={() => (window.location.href = "/chats")}
         >
           Список чатов
         </button>
