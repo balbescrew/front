@@ -1,4 +1,35 @@
+# Исходные зависимости
 node_modules
-.git
+npm-debug.log
+yarn.lock
+.pnpm-debug.log
+
+# Сборочные артефакты
 dist
-.env
+build
+
+# Конфиги IDE
+*.swp
+*.swo
+*.swn
+*.bak
+*.tmp
+*.log
+*.tsbuildinfo
+.vscode
+.idea
+
+# Системное
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+.dockerignore
