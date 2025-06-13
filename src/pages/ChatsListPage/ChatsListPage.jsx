@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './ChatsListPage.css';
-
-const apiUrl = "http://10.10.127.4/api";
-
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./ChatsListPage.css";
+import { apiUrl } from "../../config";
 const ChatsListPage = () => {
   const [chats, setChats] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,14 +12,14 @@ const ChatsListPage = () => {
     const fetchChatIds = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('token');
-        
+        const token = localStorage.getItem("token");
+
         const response = await fetch(`${apiUrl}/messages/unique_chat_ids`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!response.ok) {
@@ -31,7 +29,7 @@ const ChatsListPage = () => {
         const data = await response.json();
         setChats(data);
       } catch (err) {
-        console.error('Error fetching chat IDs:', err);
+        console.error("Error fetching chat IDs:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -42,7 +40,7 @@ const ChatsListPage = () => {
   }, []);
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleChatClick = (chatId) => {
@@ -55,12 +53,10 @@ const ChatsListPage = () => {
       <button className="back-button" onClick={handleBackClick}>
         Вернуться на главную
       </button>
-      
+
       <div className="content">
-        <div className="top-bar">
-          Список чатов (ID)
-        </div>
-        
+        <div className="top-bar">Список чатов (ID)</div>
+
         <div className="menu">
           <div className="chats-list-box">
             {loading ? (
@@ -71,9 +67,9 @@ const ChatsListPage = () => {
               <div className="no-chats">Чатов не найдено</div>
             ) : (
               <div className="chat-list">
-                {chats.map(chatId => (
-                  <div 
-                    key={chatId} 
+                {chats.map((chatId) => (
+                  <div
+                    key={chatId}
                     className="chat-item"
                     onClick={() => handleChatClick(chatId)}
                   >

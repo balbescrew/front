@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './UsersPage.css';
-
-const apiUrl = "http://10.10.127.4/api";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./UsersPage.css";
+import { apiUrl } from "../../config";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -14,15 +13,18 @@ const UsersPage = () => {
     const fetchUserSpamSummary = async () => {
       try {
         setLoading(true);
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch(`${apiUrl}/messages/user_spam_summary?last_n=5`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          `${apiUrl}/messages/user_spam_summary?last_n=5`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -31,7 +33,7 @@ const UsersPage = () => {
         const data = await response.json();
         setUsers(data);
       } catch (err) {
-        console.error('Error fetching user spam summary:', err);
+        console.error("Error fetching user spam summary:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -42,7 +44,7 @@ const UsersPage = () => {
   }, []);
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   const handleUserClick = (username) => {
@@ -54,12 +56,10 @@ const UsersPage = () => {
       <button className="back-button" onClick={handleBackClick}>
         Вернуться на главную
       </button>
-      
+
       <div className="content">
-        <div className="top-bar">
-          Список пользователей со спамом
-        </div>
-        
+        <div className="top-bar">Список пользователей со спамом</div>
+
         <div className="summary-container">
           {loading ? (
             <div className="loading">Загрузка данных...</div>
@@ -77,9 +77,9 @@ const UsersPage = () => {
               </thead>
               <tbody>
                 {users.map((user, index) => (
-                  <tr 
-                    key={index} 
-                    className="user-row" 
+                  <tr
+                    key={index}
+                    className="user-row"
                     onClick={() => handleUserClick(user.username)}
                   >
                     <td>{user.username}</td>

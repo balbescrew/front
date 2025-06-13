@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/auth';
 import './LoginForm.css';
 
-const apiUrl = "http://10.10.127.4/api";
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');

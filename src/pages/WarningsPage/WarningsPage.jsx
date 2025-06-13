@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./WarningsPage.css";
-
-const apiUrl = "http://10.10.127.4/api";
+import { apiUrl } from "../../config";
 
 const WarningsPage = () => {
   const navigate = useNavigate();
   const { chatId } = useParams(); // Получаем chatId из URL
-  const [warnings, setWarnings] = useState([]);
+  // const [warnings, setWarnings] = useState([]);
   const [filteredWarnings, setFilteredWarnings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +28,7 @@ const WarningsPage = () => {
         }
 
         const data = await response.json();
-        setWarnings(data);
+        // setWarnings(data);
 
         if (chatId) {
           const filtered = data.filter((warning) => warning.chatId === chatId);
@@ -50,10 +49,6 @@ const WarningsPage = () => {
 
   const handleBackClick = () => {
     navigate("/");
-  };
-
-  const handleClearFilter = () => {
-    navigate("/warnings");
   };
 
   return (
